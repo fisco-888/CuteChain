@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.webank.lian.dao.CompanyDao">
+    <!--auto generated Code-->
+    <resultMap id="BaseResultMap" type="com.webank.lian.domain.Company">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="identitication" property="identitication" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="Base_Column_List">
+        id,
+        name,
+        password,
+        address,
+        identitication
+    </sql>
+
+    <!--auto generated Code-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="company.id">
+        INSERT INTO company (
+            id,
+            name,
+            password,
+            address,
+            identitication
+        ) VALUES (
+            #{company.id,jdbcType=INTEGER},
+            #{company.name,jdbcType=VARCHAR},
+            #{company.password,jdbcType=VARCHAR},
+            #{company.address,jdbcType=VARCHAR},
+            #{company.identitication,jdbcType=VARCHAR}
+        )
+    </insert>
+    <select id="getCompanyByIdentification" resultType="com.webank.lian.domain.Company">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM company
+        WHERE identification=#{identification}
+    </select>
+</mapper>
+

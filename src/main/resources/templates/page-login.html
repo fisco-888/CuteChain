@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>login</title>
+
+    <style>
+        .tab-wrapper {
+            margin: 100px auto;
+            width: 70%;
+            max-width: 500px;
+            /* border: 1px solid red; */
+            top: 50px;
+        }
+
+        .tab-wrapper h2 {
+            text-align: center;
+            position: relative;
+            left: -11.5%;
+            top: -20px;
+        }
+
+        .tab-menu li {
+            position: relative;
+            background-color: #fff;
+            color: #bcbcbc;
+            display: inline-block;
+            padding: 20px 85.5px;
+            opacity: 0.8;
+            cursor: pointer;
+            z-index: 0;
+            left: -5%;
+            top: -30%;
+        }
+
+        .tab-menu li:hover {
+            color: #464646;
+        }
+
+        .tab-menu li.active {
+            color: #464646;
+            opacity: 1;
+        }
+
+        .tab-menu li.active:hover {
+            color: #464646;
+        }
+
+        .tab-content > div {
+            background-color: #fff;
+            box-sizing: border-box;
+            width: 80.1%;
+            padding: 35px;
+            min-height: 200px;
+        }
+
+        .g_login, .q_login {
+            position: relative;
+            left: 17px;
+        }
+
+        .line {
+            position: absolute;
+            width: 0;
+            height: 7px;
+            background-color: aqua;
+            top: 0;
+            left: 0;
+        }
+
+        .item {
+            margin: 30px auto;
+        }
+
+        .username, .password {
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            padding: 10px 10px;
+            width: 240px;
+        }
+
+        .lo_btn, .res_btn {
+            border-radius: 5px;
+            padding: 10px 5px;
+            width: 95px;
+            margin: 5px 0 0 20px;
+            color: #fff;
+        }
+
+        /* 当屏幕大于750px的样式 */
+        @media screen and (min-width: 750px) {
+            .lo_btn, .res_btn {
+                border-radius: 5px;
+                padding: 10px 5px;
+                width: 125px;
+                margin: 5px 0 0 30px;
+                color: #fff;
+            }
+        }
+
+        .lo_btn {
+            background: rgb(0, 130, 118);
+        }
+
+        .res_btn {
+            background: rgb(240, 246, 251);
+            color: black;
+        }
+    </style>
+
+</head>
+<body>
+
+<section class="material-half-bg">
+    <div class="cover"></div>
+</section>
+
+<section class="login-content">
+    <div class="tab-wrapper">
+        <h2>个人信息授权保护平台</h2>
+        <ul class="tab-menu">
+            <li class="active">个人</li>
+            <li>企业</li>
+        </ul>
+
+        <div class="tab-content">
+            <!-- 用户个人 -->
+            <div class="g_login">
+                <div class="item">
+                    <label>用&nbsp;&nbsp;户&nbsp;&nbsp;名&nbsp;&nbsp;:&nbsp;&nbsp;</label>
+                    <input type="text" id="username_1" class="username" name="username" placeholder="身份证号" autofocus>
+                </div>
+                <div class="item">
+                    <label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;&nbsp;:&nbsp;&nbsp;</label>
+                    <input id="password_1" class="password" name="password" placeholder="请输入密码">
+                </div>
+                <div class="login_res">
+                    <a href="index.html">
+                        <button class="lo_btn" onclick="login_user()">登录</button>
+                    </a>
+                    <button class="res_btn">注册</button>
+                </div>
+
+            </div>
+            <!--企业-->
+            <!-- <div>     -->
+            <div class="q_login">
+                <div class="item">
+                    <label>用&nbsp;&nbsp;户&nbsp;&nbsp;名&nbsp;&nbsp;:&nbsp;&nbsp;</label>
+                    <input type="text" id="username_2" class="username" name="username" placeholder="企业ID">
+                </div>
+                <div class="item">
+                    <label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;&nbsp;:&nbsp;&nbsp;</label>
+                    <input type="password" id="password_2" class="password" name="password" placeholder="请输入密码">
+                </div>
+                <div class="login_res">
+                    <a href="index.html">
+                        <button class="lo_btn" onclick="login_company()">登录</button>
+                    </a>
+                    <button class="res_btn">注册</button>
+                </div>
+            </div>
+            <!-- </div> -->
+        </div>
+    </div>
+</section>
+
+</body>
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/pace.min.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+	$(document).ready(function () {
+		var $wrapper = $('.tab-wrapper'),
+			$allTabs = $wrapper.find('.tab-content > div'),
+			$tabMenu = $wrapper.find('.tab-menu li'),
+			$line = $('<div class="line"></div>').appendTo($tabMenu);
+		$allTabs.not(':first-of-type').hide();
+		$tabMenu.filter(':first-of-type').find(':first').width('100%')
+
+		$tabMenu.each(function (i) {
+			$(this).attr('data-tab', 'tab' + i);
+		});
+
+		$allTabs.each(function (i) {
+			$(this).attr('data-tab', 'tab' + i);
+		});
+
+		$tabMenu.on('click', function () {
+
+			var dataTab = $(this).data('tab'),
+				$getWrapper = $(this).closest($wrapper);
+
+			$getWrapper.find($tabMenu).removeClass('active');
+			$(this).addClass('active');
+
+			$getWrapper.find('.line').width(0);
+			$(this).find($line).animate({'width': '100%'}, 'fast');
+			$getWrapper.find($allTabs).hide();
+			$getWrapper.find($allTabs).filter('[data-tab=' + dataTab + ']').show();
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		//login();
+	});
+
+
+	function login_user() {
+		var username_1 = $("#username_1").val();
+		var password_1 = $("#password_1").val();
+		alert(username_1 + "," + password_1);
+		if ((username_1 == "" || username_1 == null) || (password_1 == "" || password_1 == null)) {
+			alert("用户名或密码不能为空！");
+		} else {
+			$.ajax({
+				url: "/person_do_login",
+				data: {username: username_1, password: password_1},
+				success: function (data) {
+					if (data.status == 0) {
+						var userId = data.userId
+						self.location = "/index/" + userId;
+					} else {
+						alert(data.message);
+					}
+				}
+			});
+		}
+	}
+
+	function login_company() {
+		var username_2 = $("#username_2").val();
+		var password_2 = $("#password_2").val();
+		alert(username_2 + "," + password_2);
+		if ((username_2 == "" || username_2 == null) || (password_2 == "" || password_2 == null)) {
+			alert("用户名或密码不能为空！");
+		} else {
+			$.ajax({
+				url: "/com_do_login",
+				type:"POST",
+				data: {
+					username: username_2,
+                    password: password_2
+                },
+				success: function (data) {
+					if (data.status == 0) {
+						self.location = "/index/" + userId;
+					} else {
+						alert(data.message);
+					}
+				}
+			});
+		}
+	};
+
+</script>
+
+</html>
